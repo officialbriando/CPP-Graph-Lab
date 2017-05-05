@@ -107,15 +107,14 @@ void AdjMatrix::runDFS()
 		}
 
 		if(!nextNode)						//If there are no unvisited edges, pops a node off the stack and
-		{									//sets current node to the top of the stack.
-			nodeStack.pop();
+		{									//sets current node to it.
 			if(nodeStack.isEmpty() == 1)	//Stops the search once there is nothing left in the stack.
 			{
 				done = true;
 			}
 			else
 			{
-				current = nodeStack.peek();
+				current = nodeStack.pop();
 			}
 		}
 	}
