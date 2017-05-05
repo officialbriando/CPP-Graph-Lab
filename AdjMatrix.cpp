@@ -19,7 +19,7 @@ AdjMatrix::AdjMatrix(int n)			//Constructor for the matrix class.
 		matrix[i] = new int[numNodes];
 		for(int j = 0; j < numNodes; ++j)
 		{
-			matrix[i][j] = 0;			// Defaults every weight in the matrix to 0.
+			matrix[i][j] = 0;			// Defaults every edge in the matrix to 0.
 		}
 	}
 }
@@ -28,13 +28,13 @@ AdjMatrix::~AdjMatrix() {}
 
 void AdjMatrix::setEdge(int source, int dest)				//Setting unweighted edges.
 {
-	if(source > numNodes || source < 0 || dest > numNodes || dest < 9)	//Error checking to prevent ArrayIndexOutOfBounds.
+	if(source > numNodes || source < 1 || dest > numNodes || dest < 1)	//Error checking to prevent ArrayIndexOutOfBounds.
 	{
 		cout << "This is not a valid edge." << endl;
 	}
 	else
 	{
-		matrix[source -1][dest - 1] = 1;					//Sets the corresponding slot in the matrix to one.
+		matrix[source - 1][dest - 1] = 1;					//Sets the corresponding slot in the matrix to one.
 	}
 }
 
@@ -74,7 +74,7 @@ void AdjMatrix::runDFS()
 		discovered[i] = 0;
 	}
 
-	int order = 0;							//Index for discovered array.
+	int order = 0;							//Index for discovered nodes array.
 
 	int current = startNode;
 
@@ -124,4 +124,9 @@ void AdjMatrix::runDFS()
 	{
 		cout << discovered[i] << " -> ";	//Prints out the order of discovered nodes.
 	}
+}
+
+void AdjMatrix::runPrims()
+{
+
 }
