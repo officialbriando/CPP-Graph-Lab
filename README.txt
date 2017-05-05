@@ -6,3 +6,11 @@ Notes:
 - Labels are set as ints.
 - The graph is directed & unweighted.
     - Because there are no weights, Primm's and Dijkstra's algorithm will only return subtrees based on the first encountered edge.
+
+
+References:
+http://www.sanfoundry.com/cpp-program-implement-adjacency-matrix/
+    - Used to research member variable of an AdjacencyMatrix class.
+    
+
+All other algorithms self-coded.
