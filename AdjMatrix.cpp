@@ -96,10 +96,11 @@ void AdjMatrix::runDFS()
 			{
 				if(wasVisited[i] == false)
 				{
+					nodeStack.push(current);		//Pushes the current node onto a stack.
+					
 					current = ++i;			//If there is an unvisited adjacent node, sets that to current
 					nextNode = true;		//and indicates that the search has progressed.
 
-					nodeStack.push(current);		//Pushes the current node onto a stack.
 					break;					
 				}							
 			}
@@ -122,6 +123,6 @@ void AdjMatrix::runDFS()
 	cout << "The order of discovered nodes using Depth First-Search is: " << endl;
 	for(int i = 0; i <= order; ++i)
 	{
-		cout << discovered[i] << " -> ";
+		cout << discovered[i] << " -> ";	//Prints out the order of discovered nodes.
 	}
 }
