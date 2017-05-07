@@ -18,7 +18,7 @@ class AdjMatrix
 		void inputEdges();
 		void runDFS();
 		void runPrims();
-		//void runDijkstras();
+		void runDijkstras();
 
 		void resetVisited();
 };
