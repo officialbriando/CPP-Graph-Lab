@@ -219,6 +219,106 @@ void AdjMatrix::runPrims()
 	}
 }
 
+void AdjMatrix::runDijkstras()
+{
+	resetVisited();
+	int discovered[numNodes];
+	for(int i = 0; i < numNodes; ++i)
+	{
+		discovered[i] = 0;
+	}
+	int order = 0;
+
+	int startNode;
+	cout << "Choose a node (#) to start a Dijkstra's Algorithm analysis: ";
+	cin >> startNode;
+
+	int prevNode = startNode;
+	int current = startNode;
+
+	int distance = 0;
+
+	bool done = false;
+
+	while(!done)
+	{
+		if(wasVisited[current - 1] != true)
+		{
+			wasVisited[current - 1] = true;
+			discovered[order] = current;
+			order++;
+		}
+
+		bool adjacentNodes = false;					//Checks if there are any existing adjacent nodes.
+		for(int i = 0; i < numNodes; ++i)
+		{
+			if(matrix[current - 1][i] != 0)
+			{
+				adjacentNodes = true;
+				break;
+			}
+		}
+		if(!adjacentNodes)
+		{
+			if(current = startNode)
+			{
+				done = true;
+			}
+			else
+			{
+				current = prevNode;
+			}
+			continue;
+		}
+
+
+		bool allNodesVisited = true;
+		for(int i = 0; i < numNodes; ++i)
+		{
+			if(matrix[current - 1][i] != 0)
+			{
+				if(wasVisited[i] == false)
+				{
+					allNodesVisited = false;
+				}
+			}
+		}	
+		if(allNodesVisited)
+		{
+			done = true;
+			continue;
+		}
+
+
+		int cheapestNode = numNodes + 1;
+		int cheapestNodeWeight = 1000;
+
+		for(int i = 0; i < numNodes; ++i)
+		{
+			if((matrix[current - 1][i] != 0) && (wasVisited[i] == false) && (matrix[current - 1][i] < cheapestNodeWeight))
+			{
+				cheapestNode = i;
+				cheapestNodeWeight = matrix[current - 1][i];
+			}
+		}
+
+		prevNode = current;
+		current = cheapestNode + 1;
+		distance += cheapestNodeWeight;
+	}
+
+	cout << "The order of discovered nodes using Dijkstra's algorithm is: " << endl;
+	for(int i = 0; i < numNodes; ++i)
+	{
+		if(discovered[i] != 0)
+		{
+			cout << discovered[i] << " -> ";
+		}
+	}
+	cout << endl;
+	cout << "The distance is: " << distance << endl;
+}
+
 void AdjMatrix::resetVisited()
 {
 	for(int i = 0; i < numNodes; ++i)
