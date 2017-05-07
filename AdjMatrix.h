@@ -9,6 +9,7 @@ class AdjMatrix
 		bool* wasVisited;	//Array used to mark visited nodes.
 
 		int** matrix; 		//2D int array used as the matrix; ints will be 0/1 for unweighted edges.
+		int** primsMatrix;
 	public:
 		AdjMatrix(int n);
 		~AdjMatrix();
@@ -17,5 +18,7 @@ class AdjMatrix
 		void inputEdges();
 		void runDFS();
 		void runPrims();
-		void runDijkstras();
-}
+		//void runDijkstras();
+
+		void resetVisited();
+};
