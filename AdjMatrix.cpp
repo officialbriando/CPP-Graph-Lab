@@ -22,6 +22,16 @@ AdjMatrix::AdjMatrix(int n)			//Constructor for the matrix class.
 			matrix[i][j] = 0;			// Defaults every edge in the matrix to 0.
 		}
 	}
+
+	primsMatrix = new int*[numNodes];			
+	for(int i = 0; i < numNodes; ++i)
+	{
+		primsMatrix[i] = new int[numNodes];
+		for(int j = 0; j < numNodes; ++j)
+		{
+			primsMatrix[i][j] = 0;			
+		}
+	}
 }
 
 AdjMatrix::~AdjMatrix() {}
@@ -34,7 +44,7 @@ void AdjMatrix::setEdge(int source, int dest)				//Setting unweighted edges.
 	}
 	else
 	{
-		matrix[source - 1][dest - 1] = 1;					//Sets the corresponding slot in the matrix to one.
+		matrix[source - 1][dest - 1] = 1;					//Sets the corresponding slot in the matrix to 1.
 	}
 }
 
@@ -92,7 +102,7 @@ void AdjMatrix::runDFS()
 		bool nextNode = false;
 		for(int i = 0; i < numNodes; ++i)
 		{
-			if(matrix[current - 1][i] == 1)
+			if(matrix[current - 1][i] != 0)
 			{
 				if(wasVisited[i] == false)
 				{
@@ -108,7 +118,7 @@ void AdjMatrix::runDFS()
 
 		if(!nextNode)						//If there are no unvisited edges, pops a node off the stack and
 		{									//sets current node to it.
-			if(nodeStack.isEmpty() == 1)	//Stops the search once there is nothing left in the stack.
+			if(nodeStack.isEmpty())	//Stops the search once there is nothing left in the stack.
 			{
 				done = true;
 			}
@@ -122,11 +132,97 @@ void AdjMatrix::runDFS()
 	cout << "The order of discovered nodes using Depth First-Search is: " << endl;
 	for(int i = 0; i <= order; ++i)
 	{
-		cout << discovered[i] << " -> ";	//Prints out the order of discovered nodes.
+		if(discovered[i] > 0 && discovered[i] <= numNodes)
+		{
+			cout << discovered[i] << " -> ";	//Prints out the order of discovered nodes.			
+		}
 	}
+	cout << endl;
 }
 
 void AdjMatrix::runPrims()
 {
+	resetVisited();
+	int discovered[numNodes];
+	for(int i = 0; i < numNodes; ++i)
+	{
+		discovered[i] = 0;
+	}
+	int order = 0;
+	
+	int startNode;
+	cout << "Choose a node (#) to start a Prim's Algorithm analysis: ";
+	cin >> startNode;
 
+	bool done = false;
+	int sourceNode;
+
+	wasVisited[startNode - 1] = true;
+	discovered[order] = startNode;
+	order++;
+
+	while(!done)
+	{
+		int cheapestNode = numNodes + 1;			//Initializes the cheapest Node to an unexisting node (guarantees all existing nodes will be lower index).
+		int cheapestNodeWeight = 1000;				//Initializes the cheapest NodeWeight to 1000 (assuming all edges in the graph are <1000).
+
+		for(int i = 0; i < numNodes; ++i)		//Searches through all discovered nodes for the cheapest adjacent node.
+		{
+			if(discovered[i] != 0)							
+			{
+				for(int j = 0; j < numNodes; ++j)
+				{
+					if((matrix[discovered[i]-1][j] != 0) && (wasVisited[j] != true))		
+					{
+						if(matrix[discovered[i]-1][j] < cheapestNodeWeight)
+						{
+							sourceNode = discovered[i] - 1;
+							cheapestNodeWeight = matrix[discovered[i]-1][j];
+							cheapestNode = j;
+						}
+					}
+				}
+			}
+		}
+		discovered[order] = cheapestNode + 1; order++;
+		primsMatrix[sourceNode][cheapestNode] = cheapestNodeWeight;
+		wasVisited[cheapestNode] = true;
+		done = true;
+		for(int i = 0; i < numNodes; ++i)
+		{
+			if(wasVisited[i] == false)
+			{
+				done = false;
+				break;
+			}
+		}
+	}
+
+	cout << "The order of discovered nodes using Prim's Algorithm is: " << endl;
+	for(int i = 0; i < numNodes; ++i)
+	{
+		if(discovered[i] != 0)
+		{
+			cout << discovered[i] << " -> ";
+		}
+	}
+	cout << endl;
+
+	cout << "The adjacency matrix for Prim's Algorithm subtree is: " << endl;
+	for(int i = 0; i < numNodes; ++i)
+	{
+		for(int j = 0; j < numNodes; ++j)
+		{
+			cout << primsMatrix[i][j] << "   ";
+		}
+		cout << endl << endl;
+	}
+}
+
+void AdjMatrix::resetVisited()
+{
+	for(int i = 0; i < numNodes; ++i)
+	{
+		wasVisited[i] = false;			//Defaults every node to unvisited.
+	}
 }
