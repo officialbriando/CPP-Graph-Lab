@@ -22,7 +22,7 @@ class GenStack
 		E peek();
 
 		int getSize();
-		int isEmpty();
+		bool isEmpty();
 		int isFull();
 
 		void expand();
@@ -41,9 +41,9 @@ GenStack<E>::GenStack(int maxSize)
 template<class E>
 GenStack<E>::~GenStack()
 {
-	delete []myArray;
-	delete []tempArray;
-	cout << "Objects destroyed." << endl;
+	//delete []myArray;
+	//delete []tempArray;
+	//cout << "Stack destroyed." << endl;
 }
 
 template<class E>
@@ -90,7 +90,7 @@ int GenStack<E>::getSize()
 }
 
 template<class E>
-int GenStack<E>::isEmpty()
+bool GenStack<E>::isEmpty()
 {
 	return(top == -1); 			//Returns binary values of true/false for the equation.
 }
