@@ -1,4 +1,4 @@
-CPSC 350 Graph Lab
+C++ Graph Lab
 
 Notes:
 - The graph will be based off the adjacency matrix class.
